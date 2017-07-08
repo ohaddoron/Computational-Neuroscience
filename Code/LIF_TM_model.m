@@ -19,6 +19,7 @@ for iter = 1 : num_samples - 1
         + data.connectivity_map * I_s(:,iter));
     V(:,iter+1) = V(:,iter) + params.dt * f .* active_idx; % add only to active neurons
     spike_idx = V(:,iter+1) >= params.thresh;
+    V(spike_idx,iter) = params.AP;
     V(spike_idx,iter+1) = params.V0;
     spikes(:,iter) = spike_idx;
     skip(spike_idx,iter:iter + refract_period) = true;
@@ -37,8 +38,8 @@ for iter = 1 : num_samples - 1
     end
     I_s(:,iter+1) = I_s(:,iter) + f_I + ...
         params.I_s * u(:,iter+1) .* x(:,iter).*spike_idx;
-%     plot(u(1,1:iter)); hold on, plot(u(500,1:iter)), drawnow
 end
+%% save model and exit
 model.spike_times = spikes;
 model.V = V;
 model.u = u;

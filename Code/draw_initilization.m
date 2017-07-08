@@ -13,8 +13,12 @@ u0 = params.u0;
 x0 = params.x0;
 I0 = params.I0;
 
-V(:,1) = (1.1*V0 - 0.9 * V0) * rand(params.num_neurons,1) + 0.9 * V0;
-u(:,1) = (1.1*u0 - 0.9 * u0) * rand(params.num_neurons,1) + 0.9 * u0;
-x(:,1) = (1.1*x0 - 0.9 * x0) * rand(params.num_neurons,1) + 0.9 * x0;
-I_s(:,1) = (1.1*I0 - 0.9 * I0) * rand(params.num_neurons,1) + 0.9 * I0;
 
+V(:,1) = 2 * (params.init_tolerance * rand(params.num_neurons,1) + (1-params.init_tolerance)) * V0;
+u(:,1) = 2 * (params.init_tolerance * rand(params.num_neurons,1) + (1-params.init_tolerance)) * u0;
+x(:,1) = 2 * (params.init_tolerance * rand(params.num_neurons,1) + (1-params.init_tolerance)) * x0;
+I_s(:,1) = 2 * (params.init_tolerance * rand(params.num_neurons,1) + (1-params.init_tolerance)) * I0;
+
+
+u(u>1) = 1; u(u<0) = 0;
+x(x>1) = 1; x(x<0) = 0;
