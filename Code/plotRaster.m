@@ -7,5 +7,5 @@ indices = ~logical(spikes);
 t(indices) = nan;
 spikes(indices) = nan;
 %% plot
-figure, scatter(t(:),spikes(:),4,'k','filled');
+figure, scatter(t(:),spikes(:),3,'k','filled');
 axis([0,params.simulation_time,0,params.num_neurons]);
