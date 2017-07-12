@@ -10,8 +10,9 @@ switch params.current_type
         data.I_e = params.I_e * ones(params.num_neurons,floor(length(data.timeVec)/2));
         data.I_e(end+1 : length(data.timeVec)) = 0;
     case 'specific'
-        data.I_e = params.I_e/3 *ones(params.num_neurons,length(data.timeVec));
-        data.I_e (1 : params.num_neurons_group,1:floor(length(data.timeVec)/5)) = params.I_e;
+        data.I_e = zeros(params.num_neurons,length(data.timeVec));
+%         data.I_e = params.I_e/3 *ones(params.num_neurons,length(data.timeVec));
+        data.I_e (1 : params.num_neurons_group,1:floor(params.activation_time/params.dt)) = params.I_e;
     otherwise
         data.I_e = zeros(params.num_neurons,length(data.timeVec));
 end

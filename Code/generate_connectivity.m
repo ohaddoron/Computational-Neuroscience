@@ -14,9 +14,9 @@ for i = 1 : num_groups
     if i == num_groups - 1
         continue
     end
-    connectivity_map((i-1) * num_neurons_group + 1 : i * num_neurons_group,...
-        (i-1) * num_neurons_group + 1: i * num_neurons_group)...
-        = params.w_group;
+    indices = ((i-1) * num_neurons_group + 1) : (i * num_neurons_group);
+    r = rand(length(indices)) * 0.1 + 0.9;
+    connectivity_map(indices,indices) = r * params.w_group;
 end
 connectivity_map(logical(eye(size(connectivity_map)))) = 0; % don't allow self connections
 connectivity_map(end - params.num_inhibotory + 1:end,1:end - params.num_inhibotory) ...

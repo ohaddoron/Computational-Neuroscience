@@ -17,7 +17,6 @@ I0 = params.I0;
 V(:,1) = 2 * (params.init_tolerance * rand(params.num_neurons,1) + (1-params.init_tolerance)) * V0;
 u(:,1) = 2 * (params.init_tolerance * rand(params.num_neurons,1) + (1-params.init_tolerance)) * u0;
 x(:,1) = 2 * (params.init_tolerance * rand(params.num_neurons,1) + (1-params.init_tolerance)) * x0;
-I_s(:,1) = 2 * (params.init_tolerance * rand(params.num_neurons,1) + (1-params.init_tolerance)) * I0;
 
 
 u(u>1) = 1; u(u<0) = 0;

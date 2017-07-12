@@ -3,11 +3,16 @@ function model = LIF_TM_model ( settings, params, data )
 %% init
 num_samples = length(data.timeVec); % number of samples in simulation
 num_neurons = size(data.connectivity_map,1); % number of neurons in simulation
-[V,u,x,I_s] = draw_initilization ( settings, params, data );
+num_inhibitory = params.num_inhibotory;
+[V,u,x,I_s] = draw_initilization ( settings, params, data ); % initialize the starting values
 % refract = false(num_neurons,num_samples); % used as a refractory variable
-refract_period = round(params.refract / params.dt);
+refract_period = round(params.refract / params.dt); % refractory period in samples
 skip = false(num_neurons,num_samples);
 spikes = false(num_neurons,num_samples);
+tau_F = [repmat(params.tau_F_exititory ,num_neurons - num_inhibitory,1);...
+    repmat(params.tau_F_inhibitory, num_inhibitory,1)];
+tau_D = [repmat(params.tau_D_exititory ,num_neurons - num_inhibitory,1);...
+    repmat(params.tau_D_inhibitory, num_inhibitory,1)];
 
 %% model
 for iter = 1 : num_samples - 1
@@ -26,10 +31,10 @@ for iter = 1 : num_samples - 1
     
     %% TM model
     % Solve for u
-    f_u = (params.U- u(:,iter))/params.tau_F;
+    f_u = (params.U- u(:,iter))./tau_F;
     u(:,iter+1) = u(:,iter) + params.dt * f_u + params.U * (1-u(:,iter)) .* spike_idx;
     % Solve for x
-    f_x = (1-x(:,iter))/params.tau_D;
+    f_x = (1-x(:,iter))./tau_D;
     x(:,iter+1) = x(:,iter) + params.dt * f_x  - u(:,iter+1).*x(:,iter) .* spike_idx;
     % Solve for I_s
     f_I = -params.dt *I_s(:,iter)/params.tau_I_s;

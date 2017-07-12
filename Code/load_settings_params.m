@@ -20,16 +20,21 @@ params.tau = params.Rm * params.Cm; % membrane time constant
 params.E_L = -60e-3;
 params.electrode_freq = 1e3; %Hz
 params.SNR = 2e2;
-params.refract = 10e-3; % refractory period [sec]
+params.refract = 4e-3; % refractory period [sec]
 params.spike_amp = 20e-3; % spike amplitude. visualization only
-params.init_tolerance = 0.4; % initilization tolerance
+params.init_tolerance = 0.2; % initilization tolerance
+params.activation_time = params.simulation_time/5;
 %% TM constansts
-params.I_s = 1e-10; % synaptic current
+params.I_s = 1e-9; % synaptic current
 params.I0 = 1e-9;
-params.x0 = 0.1;
-params.u0 = 0.01;
-params.tau_D = 60e-3;
-params.tau_F = 600e-3;
+params.x0 = 1;
+params.u0 = 0;
+% exititory neurons are facilitatory
+params.tau_D_exititory = 100e-3; 
+params.tau_F_exititory = 600e-3;
+% exititory neurons are depressive
+params.tau_D_inhibitory = 600e-3;
+params.tau_F_inhibitory = 100e-3;
 params.tau_I_s = 500e-3;
 params.U = 0.2;
 params.AP = 20e-3;
@@ -42,7 +47,7 @@ params.num_non_specific = params.num_neurons_group;
 params.num_neurons = params.num_memories * params.num_neurons_group + params.num_inhibotory...
     + params.num_non_specific; 
 
-params.w_group = 3.8; % connection strength between neurons of the same group
-params.w_non_group = 0.2; % inter group connection strength
+params.w_group = 2.5; % connection strength between neurons of the same group
+params.w_non_group = 0.3; % inter group connection strength
 params.w_inhibitory = -2;
 
