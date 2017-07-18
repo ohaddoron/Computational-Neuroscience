@@ -2,44 +2,38 @@ function model = LIF_TM_model ( settings, params, data )
 
 %% init
 num_samples = length(data.timeVec); % number of samples in simulation
-num_neurons = size(data.connectivity_map,1); % number of neurons in simulation
-num_inhibitory = params.num_inhibotory;
+num_neurons = size(data.connectivity,1); % number of neurons in simulation
 [V,u,x,I_s] = draw_initilization ( settings, params, data ); % initialize the starting values
 % refract = false(num_neurons,num_samples); % used as a refractory variable
 refract_period = round(params.refract / params.dt); % refractory period in samples
 skip = false(num_neurons,num_samples);
 spikes = false(num_neurons,num_samples);
-tau_F = [repmat(params.tau_F_exititory ,num_neurons - num_inhibitory,1);...
-    repmat(params.tau_F_inhibitory, num_inhibitory,1)];
-tau_D = [repmat(params.tau_D_exititory ,num_neurons - num_inhibitory,1);...
-    repmat(params.tau_D_inhibitory, num_inhibitory,1)];
-
+E_L = V(:,1);
+tau = [repmat(params.tau_exitatory,params.num_exitatory,1); ...
+    repmat(params.tau_inhibatory,params.num_inhibatory,1)];
 %% model
 for iter = 1 : num_samples - 1
     %% refractory neurons
     active_idx = ~skip(:,iter); % get index of neurons not in refractory period
     
     %% LIF model
-    f = 1/params.tau * (-V(:,iter) + params.E_L) + params.Rm *(data.I_e(:,iter)...
-        + data.connectivity_map' * I_s(:,iter));
-    V(:,iter+1) = V(:,iter) + params.dt * f .* active_idx; % add only to active neurons
+    f = 1/tau * (-V(:,iter) + E_L);
+    V(:,iter+1) = V(:,iter) + params.dt * f .* active_idx + data.I(:,iter)...
+        + data.connectivity * I_s(:,iter); % add only to active neurons
     spike_idx = V(:,iter+1) >= params.thresh;
-    V(spike_idx,iter) = params.AP;
-    V(spike_idx,iter+1) = params.V0;
+    V(spike_idx,iter+1) = E_L(spike_idx);
     spikes(:,iter) = spike_idx;
     skip(spike_idx,iter:iter + refract_period) = true;
     
     %% TM model
     % Solve for u
-    f_u = (params.U- u(:,iter))./tau_F;
+    f_u = (params.U- u(:,iter))./params.tau_F;
     u(:,iter+1) = u(:,iter) + params.dt * f_u + params.U * (1-u(:,iter)) .* spike_idx;
     % Solve for x
-    f_x = (1-x(:,iter))./tau_D;
+    f_x = (1-x(:,iter))./params.tau_D;
     x(:,iter+1) = x(:,iter) + params.dt * f_x  - u(:,iter+1).*x(:,iter) .* spike_idx;
     % Solve for I_s
-    f_I = -params.dt *I_s(:,iter)/params.tau_I_s;
-    I_s(:,iter+1) = I_s(:,iter) + f_I + ...
-        params.I_s * u(:,iter+1) .* x(:,iter).*spike_idx;
+    I_s(:,iter+1) = I_s(:,iter) + u(:,iter+1) .* x(:,iter).*spike_idx;
 end
 %% save model and exit
 model.spike_times = spikes;

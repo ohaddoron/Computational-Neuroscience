@@ -2,7 +2,7 @@ function connectivity_map = generate_connectivity ( settings , params )
 
 %% init
 num_memories = params.num_memories;
-num_neurons_group = params.num_neurons_group; % number of neurons in a memory
+num_neurons_group = params.num_exitatory / params.num_memories; % number of neurons in a memory
 num_neurons = num_neurons_group * num_memories + params.num_inhibotory + ...
     params.num_non_specific;
 connectivity_map = params.w_non_group * rand(num_neurons) * 0.1; % number of neurons in simulation + inhibatory + non selective

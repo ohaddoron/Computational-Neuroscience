@@ -5,49 +5,53 @@ settings.path2results = fullfile('..','results');
 settings.path2data = fullfile('..','data');
 settings.path2figures = fullfile('..','figures');
 settings.visualize = true;
-%% params
+settings.simulation_type = 'memory_maintenance';
+%% Simulation Params 
 params.seed = 1;
-%% LIF constansts
-params.current_type = 'specific'; % constant / sinusoidal /step
-params.I_e = 5e-7; % current amplitude [A]
-params.thresh = -50e-3; % membrane threshold [V]
-params.V0 = -70e-3; % membrane reset potential [V]
-params.Rm = 5e6; % resitance [Ohm]
-params.Cm = 1e-9; % capacitance [F]
-params.simulation_time = 3e-0; % sec
+params.simulation_time = 4e-0; % sec
 params.dt = 1e-3; % sec
-params.tau = params.Rm * params.Cm; % membrane time constant
-params.E_L = -60e-3;
-params.electrode_freq = 1e3; %Hz
-params.SNR = 2e2;
-params.refract = 4e-3; % refractory period [sec]
-params.spike_amp = 20e-3; % spike amplitude. visualization only
-params.init_tolerance = 0.2; % initilization tolerance
-params.activation_time = params.simulation_time/5;
-%% TM constansts
-params.I_s = 1e-9; % synaptic current
-params.I0 = 1e-9;
-params.x0 = 1;
-params.u0 = 0;
-% exititory neurons are facilitatory
-params.tau_D_exititory = 100e-3; 
-params.tau_F_exititory = 600e-3;
-% exititory neurons are depressive
-params.tau_D_inhibitory = 600e-3;
-params.tau_F_inhibitory = 100e-3;
-params.tau_I_s = 500e-3;
-params.U = 0.2;
-params.AP = 20e-3;
-
-params.num_neurons_group = 50;
-params.num_memories = 3;
+%% Single Cell Parameters
+params.thresh = 20e-3; % membrane threshold [V]
+params.V0_exitatory = 16e-3; % membrane reset potential for exitatory neurons[V]
+params.V0_inhibatory = 13e-3; % memberane reset potential for inhibatory neurons
+params.tau_exitatory = 15e-3; % membrane time constant [sec]
+params.tau_inhibatory = 10e-3; % membrane time constant [sec]
+params.refract = 2e-3; % refractory period for exitatory neurons [sec]
+%% Network Parameters
+params.f = 0.1; % Coding Level
+params.c = 0.2; % Probability of synaptic contact
+params.num_memories = 5; % number of memories in the simulation
 % params.num_neurons = (params.num_memories + 2) * params.num_neurons_group;
-params.num_inhibotory = params.num_neurons_group;
-params.num_non_specific = params.num_neurons_group;
-params.num_neurons = params.num_memories * params.num_neurons_group + params.num_inhibotory...
-    + params.num_non_specific; 
-
-params.w_group = 2.5; % connection strength between neurons of the same group
-params.w_non_group = 0.3; % inter group connection strength
-params.w_inhibitory = -2;
-
+params.num_inhibatory = 2e3; % num neurons
+params.num_exitatory = 8e3; % num neurons
+params.mu_ext_exitatotry = 23.10e-3; % extitory neurons mean external input [V]
+params.sigma_ext_exitatotry = 1e-3; % extitory neurons standard deviation external input [V]
+params.mu_ext_inhibatory = 21e-3; % inhibatory neurons mean external input [V]
+params.sigma_ext_inhibatory = 1e-3; % inhibatory neurons standard deviation external input [V]
+params.num_neurons = params.num_inhibatory + params.num_exitatory; % total number of neurons in the simulation
+%% Synaptic Parameters
+params.J_I_E = 0.135e-3; % Synaptic Efficacy E -> I [V]
+params.J_E_I = -0.25e-3; % Synaptic Efficacy I -> E [V]
+params.J_I_I = 0.2e-3; % Synaptic Efficacy I -> I [V]
+params.J_b = 0.1e-3;% Basline level of E - > E synapses [V]
+params.J_p = 0.45e-3;% Potentiated level of E -> E synapses [V]
+params.gamma0 = 0.1; % Fraction of potentiated synapses before learning
+params.delta = 0.5; % Synaptic delays
+%% Short term synaptic dynapics parameters
+params.x0 = 1; % Baseline resources factor
+params.I0 = 0; % Baseline current
+params.U = 0.2; % Basleline utilization factor
+params.tau_D = 200e-3; % Recovery time of synaptic resources [sec]
+params.tau_F = 1500e-3; % Recovery time of utilization factor [sec]
+%% Selective Stimulation 
+params.D_cue = 1e0; % Cue delay. Used to allow the network reach a spontaneous state
+params.T_cue = 350e-3; % Duration of selective potentiation
+params.A_cue = 1.15; % Amplification factor
+%% Reactivation Signal
+params.D_reactivating = 2.5e0; % Delay until reactivation
+params.T_reactivating = 250e-3; % Duration of reactivating signal
+params.A_reactivating = 1.05; % Amplification factor
+%% Periodic activating signal
+params.T_periodic = 100e-3; % Duration of reactivating signal
+params.Period = 250e-3; % Period of reactivation time
+params.A_periodic = 1.075; % Amplification factor
