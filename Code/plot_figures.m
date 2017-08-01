@@ -1,6 +1,11 @@
 function plot_figures ( settings, params, data, model)
 
 rng(params.seed);
+%% plot raster
+h = plotRaster(settings,params,data,model);
+savefig(h,fullfile(settings.path2figures,'Raster Plot'))
+saveas(h,fullfile(settings.path2figures,'Raster Plot.bmp'));
+
 %% draw connectivity
  h = figure;
 imagesc(data.connectivity);
@@ -30,8 +35,4 @@ plot(data.timeVec,model.I_s(neuron_idx1,:)), plot(data.timeVec,model.I_s(neuron_
 title('I_{synaptic}'), legend(leg,'Location','EastOutside');
 savefig(h,fullfile(settings.path2figures,'Example Neurons'))
 saveas(h,fullfile(settings.path2figures,'Example Neurons.bmp'));
-%% plot raster
-h = plotRaster(settings,params,data,model);
-savefig(h,fullfile(settings.path2figures,'Raster Plot'))
-saveas(h,fullfile(settings.path2figures,'Raster Plot.bmp'));
 

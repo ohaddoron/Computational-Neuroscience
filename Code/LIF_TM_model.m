@@ -20,6 +20,10 @@ for iter = 1 : num_samples - 1
     f = 1/tau * (-V(:,iter) + E_L);
     V(:,iter+1) = V(:,iter) + params.dt * f .* active_idx + data.I(:,iter)...
         + data.connectivity * I_s(:,iter); % add only to active neurons
+%     if iter == 1 
+%         figure;
+%     end
+%     plot(data.connectivity * I_s(:,iter) + data.I(:,iter)), drawnow;
     spike_idx = V(:,iter+1) >= params.thresh;
     V(spike_idx,iter+1) = E_L(spike_idx);
     spikes(:,iter) = spike_idx;

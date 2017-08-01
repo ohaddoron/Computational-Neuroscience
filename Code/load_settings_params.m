@@ -32,7 +32,7 @@ params.num_neurons = params.num_inhibatory + params.num_exitatory; % total numbe
 %% Synaptic Parameters
 params.J_I_E = 0.135e-3; % Synaptic Efficacy E -> I [V]
 params.J_E_I = -0.25e-3; % Synaptic Efficacy I -> E [V]
-params.J_I_I = 0.2e-3; % Synaptic Efficacy I -> I [V]
+params.J_I_I = -0.2e-3; % Synaptic Efficacy I -> I [V]
 params.J_b = 0.1e-3;% Basline level of E - > E synapses [V]
 params.J_p = 0.45e-3;% Potentiated level of E -> E synapses [V]
 params.gamma0 = 0.1; % Fraction of potentiated synapses before learning
@@ -46,11 +46,11 @@ params.tau_F = 1500e-3; % Recovery time of utilization factor [sec]
 %% Selective Stimulation 
 params.D_cue = 1e0; % Cue delay. Used to allow the network reach a spontaneous state
 params.T_cue = 350e-3; % Duration of selective potentiation
-params.A_cue = 1.15; % Amplification factor
+params.A_cue = 20; % Amplification factor
 %% Reactivation Signal
 params.D_reactivating = 2.5e0; % Delay until reactivation
 params.T_reactivating = 250e-3; % Duration of reactivating signal
-params.A_reactivating = 1.05; % Amplification factor
+params.A_reactivating = 10; % Amplification factor
 %% Periodic activating signal
 params.T_periodic = 100e-3; % Duration of reactivating signal
 params.Period = 250e-3; % Period of reactivation time

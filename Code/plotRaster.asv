@@ -10,19 +10,16 @@ indices = [indices, indices + 0.1 * params.num_exitatory];
 num_neurons = length(indices);
 spike_mat = spike_mat(indices,:);
 spikes = bsxfun(@times,spike_mat,repmat((1:num_neurons/2)',2,1));
-spikes(num_neurons/2 + 1 : end,:) = spikes(num_neurons/2 + 1 : end,:) - 0.5;
-indices = spikes == 0 | spikes == -0.5;
+spikes(num_neurons/2
+indices = ~logical(spikes);
 t = repmat(data.timeVec,num_neurons,1);
 c = [repmat([0 1 0],length(t(:))/2,1); repmat([0 0 0],length(t(:))/2,1)];
 t(indices) = nan;
 spikes(indices) = nan;
 %% plot
+scatter(t(:),spikes(:),10,c,'filled');
+axis([0,params.simulation_time,0,l]);
 hold on
-for i = 1 : size(t,2)
-    scatter(t(1:num_neurons/2,i),spikes(1:num_neurons/2,i),5,'g','filled');
-    scatter(t(num_neurons/2+1:end,i),spikes(num_neurons/2+1:end,i),5,'k','filled');
-%     drawnow;
-end
 % X = [0 params.activation_time params.activation_time 0];
 % y = ylim;
 % Y = [0 0 y(2) y(2)];

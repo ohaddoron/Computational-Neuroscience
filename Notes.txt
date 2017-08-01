@@ -1,3 +1,2 @@
-1. Change the inhibitory neurons to depressing dynamics
-2. If 1 doesn't sufficiently decrese the effect of the inhibitory group, decrease the connectivity strength - not physiological
-3. 
+1. The inhibition seems to be stronger than the exitation felt by the exitatory neurons. Make sure there is not bug
+2. When plotting the raster plot, instead of using the same indices for both groups, decrese 0.5 from one of them to seperate them better
