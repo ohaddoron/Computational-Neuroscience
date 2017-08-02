@@ -13,20 +13,33 @@ spikes = bsxfun(@times,spike_mat,repmat((1:num_neurons/2)',2,1));
 spikes(num_neurons/2 + 1 : end,:) = spikes(num_neurons/2 + 1 : end,:) - 0.5;
 indices = spikes == 0 | spikes == -0.5;
 t = repmat(data.timeVec,num_neurons,1);
-c = [repmat([0 1 0],length(t(:))/2,1); repmat([0 0 0],length(t(:))/2,1)];
+c = [repmat([0 0 0],length(t(:))/2,1); repmat([0 1 0],length(t(:))/2,1)];
 t(indices) = nan;
 spikes(indices) = nan;
 %% plot
 hold on
-for i = 1 : size(t,2)
-    scatter(t(1:num_neurons/2,i),spikes(1:num_neurons/2,i),5,'g','filled');
-    scatter(t(num_neurons/2+1:end,i),spikes(num_neurons/2+1:end,i),5,'k','filled');
-%     drawnow;
+y = [0, 0.01 * params.num_exitatory];
+X1 = [params.D_cue, params.D_cue + params.T_cue,params.D_cue + params.T_cue,params.D_cue];
+Y1 = [0, 0, y(2), y(2)];
+patch(X1,Y1,[1 1 1] * 0.1, 'FaceAlpha',0.3);
+
+
+X2 = [params.D_reactivating, params.D_reactivating + params.T_reactivating...
+    ,params.D_reactivating + params.T_reactivating,params.D_reactivating];
+Y2 = [0, 0, y(2), y(2)];
+patch(X2,Y2,[1 1 1] * 0.7, 'FaceAlpha',0.3);
+
+% scatter(t(:),spikes(:),5,c,'filled');
+% spikes = flipud(spikes);
+for i = 1 : size(spikes,1)
+    if i <= size(spikes,1) / 2
+        scatter(t(i,:),spikes(i,:),5,'k','filled');
+    else
+        scatter(t(i,:),spikes(i,:),5,'g','filled');
+    end
+    
 end
-% X = [0 params.activation_time params.activation_time 0];
-% y = ylim;
-% Y = [0 0 y(2) y(2)];
-% patch(X,Y,0.3 * [1 1 1],'FaceAlpha',0.4)
-% set(gca,'children',flipud(get(gca,'children')));
-title('Raster Plot'), xlabel('Neuron #'), ylabel('Neuron #');
-legend('Specific Activating Current','Spikes');
+
+xlim([0 params.simulation_time]);
+title('Raster Plot'), xlabel('Time [sec]'), ylabel('Neuron #');
+% legend('Activated group','Non-activated group','Specific activating current','Non-specific activating current');

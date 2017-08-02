@@ -25,6 +25,7 @@ for iter = 1 : num_samples - 1
 %     end
 %     plot(data.connectivity * I_s(:,iter) + data.I(:,iter)), drawnow;
     spike_idx = V(:,iter+1) >= params.thresh;
+    V(spike_idx,iter) = params.spike_potential;
     V(spike_idx,iter+1) = E_L(spike_idx);
     spikes(:,iter) = spike_idx;
     skip(spike_idx,iter:iter + refract_period) = true;
@@ -37,7 +38,8 @@ for iter = 1 : num_samples - 1
     f_x = (1-x(:,iter))./params.tau_D;
     x(:,iter+1) = x(:,iter) + params.dt * f_x  - u(:,iter+1).*x(:,iter) .* spike_idx;
     % Solve for I_s
-    I_s(:,iter+1) = I_s(:,iter) + u(:,iter+1) .* x(:,iter).*spike_idx;
+%     f_I_s = -I_s(:,iter) / params.tau_I_s;
+    I_s(:,iter+1) = u(:,iter+1) .* x(:,iter).*spike_idx;
 end
 %% save model and exit
 model.spike_times = spikes;
@@ -45,5 +47,7 @@ model.V = V;
 model.u = u;
 model.x = x;
 model.I_s = I_s;
+model.settings = settings;
+model.params = params;
     
     

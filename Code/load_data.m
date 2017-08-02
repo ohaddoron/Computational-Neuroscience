@@ -28,6 +28,7 @@ data.I_external_inhibatory = params.sigma_ext_inhibatory * ...
 data.I = [data.I_external_exitatory; data.I_external_inhibatory]; 
 data.I(I_amp_selective) = data.I(I_amp_selective) * params.A_cue; 
 data.I(I_amp_non_selective) = data.I(I_amp_non_selective) * params.A_reactivating; 
+data.I(data.I<0) = 0;
 %% Connectivity
 %% Get indices of the different groups
 inhibatory_indices = (params.num_neurons - params.num_inhibatory + 1) : params.num_neurons;
@@ -63,18 +64,26 @@ end
 connectivity_map(non_selective_indices,non_selective_indices) = params.J_b;
 
 data.connectivity = connectivity_map.*connectivity_bin;
-
+%% synaptic delays
+data.D = params.delta(1) + (params.delta(2) - params.delta(1)) * rand(size(data.connectivity));
 return
 function connectivity = connect ( settings, params, inhibatory_indices, non_selective_indices, selective_indices , group_indices )
 %% initilize
-connectivity = zeros(params.num_neurons,params.num_neurons);
-select_idx = [];
+rng(params.seed);
+connectivity = false(params.num_neurons,params.num_neurons);
 %% draw random connectivity pattern
-connectivity(group_indices,inhibatory_indices) = binornd(1,params.c,length(group_indices),length(inhibatory_indices));
-connectivity(group_indices,non_selective_indices) = binornd(1,params.c *(1-params.num_memories * params.f),length(group_indices),length(non_selective_indices));
-for i = 1 : params.num_memories
-    connectivity(group_indices,selective_indices{i}) = binornd(1,params.c * params.f,length(group_indices),length(selective_indices{i}));
+for i = 1 : length(group_indices)
+    %% selective connections
+    selective_connection = cellfun(@(x) randsample(x,round(params.c * params.f * params.num_exitatory)), selective_indices,'Un',false);
+    selective_connection = cat(2,selective_connection{:});
+    %% non-selective connections
+    non_selective_connection = randsample(non_selective_indices, round(params.c *(1 - params.num_memories * params.f) * params.num_exitatory));
+    %% inhibatory connections
+    inhib_connection = randsample(inhibatory_indices,round(params.c * params.num_inhibatory));
+    %% connect
+    connectivity(group_indices(i),selective_connection) = true;
+    connectivity(group_indices(i),non_selective_connection) = true;
+    connectivity(group_indices(i),inhib_connection) = true;
 end
-connectivity = logical(connectivity);
 return
 
