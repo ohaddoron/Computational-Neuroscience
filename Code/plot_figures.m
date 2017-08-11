@@ -26,7 +26,7 @@ imagesc(data.I);
 xlabel('Time [ms]');
 ylabel('Neuron #');
 b = colorbar;
-xlabel(b,'EPSP [V]');
+xlabel(b,'PSP [V]');
 title('External Current');
 savefig(h,fullfile(settings.path2figures,'External Current'))
 saveas(h,fullfile(settings.path2figures,'External Current.bmp'));

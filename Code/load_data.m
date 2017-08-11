@@ -10,11 +10,11 @@ I_amp_non_selective = false(params.num_neurons,length(data.timeVec)); % Amplific
 switch settings.simulation_type
     case 'memory_maintenance'
         T_cue = round(params.T_cue / params.dt); % activation duration
-        D_cue = round(params.D_cue / params.dt); % activation delay
+        D_cue = round(params.D_cue / params.dt) + 1; % activation delay
         T_reactivation = (params.T_reactivating / params.dt); % reactivation duration
-        D_reactivation = round(params.D_reactivating / params.dt); % reactivation delay
+        D_reactivation = round(params.D_reactivating / params.dt) + 1; % reactivation delay
         I_amp_selective(1:num_neurons_group,D_cue:D_cue+T_cue) = true; % indices to amplify
-        I_amp_non_selective(:,D_reactivation:D_reactivation + T_reactivation) = true; % indices to amplify
+        I_amp_non_selective(1:params.num_exitatory,D_reactivation:D_reactivation + T_reactivation) = true; % indices to amplify
     otherwise
         ...        
 end
@@ -28,7 +28,8 @@ data.I_external_inhibatory = params.sigma_ext_inhibatory * ...
 data.I = [data.I_external_exitatory; data.I_external_inhibatory]; 
 data.I(I_amp_selective) = data.I(I_amp_selective) * params.A_cue; 
 data.I(I_amp_non_selective) = data.I(I_amp_non_selective) * params.A_reactivating; 
-data.I(data.I<0) = 0;
+% data.I = data.I + 4e-3 * binornd(1,params.p_stimulation,size(data.I));
+% data.I(data.I<0) = 0;
 %% Connectivity
 %% Get indices of the different groups
 inhibatory_indices = (params.num_neurons - params.num_inhibatory + 1) : params.num_neurons;

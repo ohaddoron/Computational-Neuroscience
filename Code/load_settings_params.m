@@ -8,7 +8,7 @@ settings.visualize = true;
 settings.simulation_type = 'memory_maintenance';
 %% Simulation Params 
 params.seed = 1;
-params.simulation_time = 4e-0; % sec
+params.simulation_time = 2e-0; % sec
 params.dt = 1e-3; % sec
 %% Single Cell Parameters
 params.thresh = 20e-3; % membrane threshold [V]
@@ -25,11 +25,12 @@ params.num_memories = 5; % number of memories in the simulation
 % params.num_neurons = (params.num_memories + 2) * params.num_neurons_group;
 params.num_inhibatory = 2e3; % num neurons
 params.num_exitatory = 8e3; % num neurons
-params.mu_ext_exitatotry = 23.1e-6; % extitory neurons mean external input [V]
-params.sigma_ext_exitatotry = 1e-6; % extitory neurons standard deviation external input [V]
-params.mu_ext_inhibatory = 21.0e-6; % inhibatory neurons mean external input [V]
-params.sigma_ext_inhibatory = 1e-6; % inhibatory neurons standard deviation external input [V]
+params.mu_ext_exitatotry = 23.1e-3; % extitory neurons mean external input [V]
+params.sigma_ext_exitatotry = 1e-3; % extitory neurons standard deviation external input [V]
+params.mu_ext_inhibatory = 21.0e-3; % inhibatory neurons mean external input [V]
+params.sigma_ext_inhibatory = 1e-3; % inhibatory neurons standard deviation external input [V]
 params.num_neurons = params.num_inhibatory + params.num_exitatory; % total number of neurons in the simulation
+params.p_stimulation = 1e-3;
 %% Synaptic Parameters
 params.J_I_E = 0.135e-3; % Synaptic Efficacy E -> I [V]
 params.J_E_I = -0.25e-3; % Synaptic Efficacy I -> E [V]
@@ -46,13 +47,13 @@ params.tau_D = 200e-3; % Recovery time of synaptic resources [sec]
 params.tau_F = 1500e-3; % Recovery time of utilization factor [sec]
 params.tau_I_s = 300e-3; % Time constant of synaptic current
 %% Selective Stimulation 
-params.D_cue = 1e0; % Cue delay. Used to allow the network reach a spontaneous state
+params.D_cue = 0e0; % Cue delay. Used to allow the network reach a spontaneous state
 params.T_cue = 350e-3; % Duration of selective potentiation
-params.A_cue = 1.5e1; % Amplification factor
+params.A_cue = 1.15e0; % Amplification factor
 %% Reactivation Signal
-params.D_reactivating = 1.7e0; % Delay until reactivation
+params.D_reactivating = 0.7e0; % Delay until reactivation
 params.T_reactivating = 250e-3; % Duration of reactivating signal
-params.A_reactivating = 1.05e1; % Amplification factor
+params.A_reactivating = 1.05e0; % Amplification factor
 %% Periodic activating signal
 params.T_periodic = 100e-3; % Duration of reactivating signal
 params.Period = 250e-3; % Period of reactivation time
