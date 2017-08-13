@@ -66,7 +66,8 @@ connectivity_map(non_selective_indices,non_selective_indices) = params.J_b;
 
 data.connectivity = connectivity_map.*connectivity_bin;
 %% synaptic delays
-data.D = params.delta(1) + (params.delta(2) - params.delta(1)) * rand(size(data.connectivity));
+% data.D = params.delta(1) + (params.delta(2) - params.delta(1)) * rand(size(data.connectivity));
+data.D = randi(round(params.delta(end)/params.dt),size(data.connectivity)) + 1;
 return
 function connectivity = connect ( settings, params, inhibatory_indices, non_selective_indices, selective_indices , group_indices )
 %% initilize
