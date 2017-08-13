@@ -18,10 +18,12 @@ for iter = 1 : num_samples - 1
     
     %% LIF model
     f = (E_L-V(:,iter) + data.I(:,iter)  + data.connectivity * I_s(:,iter))./tau;
+%     f = (E_L - V(:,iter) + data.I(:,iter));
     V(:,iter+1) = V(:,iter) + params.dt * f .* active_idx; % add only to active neurons
 %     if iter == 1 
 %         figure;
 %     end
+%     plot(V(1,1:iter)), hold on, plot(V(81,1:iter)), drawnow, hold off;
 %     plot(V(1,1:iter)), hold on, plot(V(81,1:iter)), drawnow, hold off;
 %     plot(data.connectivity * I_s(:,iter) + data.I(:,iter)), drawnow;
 %     plot(V(end,1:iter)), drawnow;

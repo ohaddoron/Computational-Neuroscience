@@ -26,8 +26,8 @@ data.I_external_inhibatory = params.sigma_ext_inhibatory * ...
 
 % Total current
 data.I = [data.I_external_exitatory; data.I_external_inhibatory]; 
-data.I(I_amp_selective) = data.I(I_amp_selective) * params.A_cue; 
-data.I(I_amp_non_selective) = data.I(I_amp_non_selective) * params.A_reactivating; 
+data.I(I_amp_selective) = abs(data.I(I_amp_selective)) * params.A_cue; 
+data.I(I_amp_non_selective) = abs(data.I(I_amp_non_selective)) * params.A_reactivating; 
 % data.I = data.I + 4e-3 * binornd(1,params.p_stimulation,size(data.I));
 % data.I(data.I<0) = 0;
 %% Connectivity
