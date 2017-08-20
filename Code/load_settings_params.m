@@ -9,7 +9,7 @@ settings.simulation_type = 'memory_maintenance';
 %% Simulation Params 
 params.seed = 1;
 params.simulation_time = 2e-0; % sec
-params.dt = 1e-4; % sec
+params.dt = 1e-3; % sec
 %% Single Cell Parameters
 params.thresh = 20e-3; % membrane threshold [V]
 params.V0_exitatory = 16e-3; % membrane reset potential for exitatory neurons[V]
@@ -25,17 +25,10 @@ params.num_memories = 5; % number of memories in the simulation
 % params.num_neurons = (params.num_memories + 2) * params.num_neurons_group;
 params.num_inhibatory = 2e2; % num neurons
 params.num_exitatory = 8e2; % num neurons
-<<<<<<< HEAD
 params.mu_ext_exitatotry = 1e-3; % extitory neurons mean external input [V]
 params.sigma_ext_exitatotry = 1e-2; % extitory neurons standard deviation external input [V]
 params.mu_ext_inhibatory = 1e-3; % inhibatory neurons mean external input [V]
 params.sigma_ext_inhibatory = 1e-2; % inhibatory neurons standard deviation external input [V]
-=======
-params.mu_ext_exitatotry = 23.1e-3; % extitory neurons mean external input [V]
-params.sigma_ext_exitatotry = 1e-3; % extitory neurons standard deviation external input [V]
-params.mu_ext_inhibatory = 21.0e-3; % inhibatory neurons mean external input [V]
-params.sigma_ext_inhibatory = 1e-3; % inhibatory neurons standard deviation external input [V]
->>>>>>> 95bed982ee5e0bc2d5b751bf96f6c9e3c7bfa138
 params.num_neurons = params.num_inhibatory + params.num_exitatory; % total number of neurons in the simulation
 params.p_stimulation = 1e-3;
 %% Synaptic Parameters
