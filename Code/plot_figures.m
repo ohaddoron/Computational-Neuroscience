@@ -9,7 +9,7 @@ indices = [indices, indices + 0.1 * params.num_exitatory];
 savefig(h,fullfile(settings.path2figures,'Raster Plot'))
 saveas(h,fullfile(settings.path2figures,'Raster Plot.bmp'));
 
-%% draw connectivity
+%% plot connectivity
  h = figure;
 imagesc(data.connectivity);
 xlabel('Neuron #');
@@ -30,4 +30,5 @@ xlabel(b,'PSP [V]');
 title('External Current');
 savefig(h,fullfile(settings.path2figures,'External Current'))
 saveas(h,fullfile(settings.path2figures,'External Current.bmp'));
-
+%% plot u,x,V
+[activated_indices,non_activated_selective,non_selective,inhibitory] = get_indices (settings,params);
