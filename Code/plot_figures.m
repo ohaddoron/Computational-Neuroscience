@@ -4,20 +4,20 @@ rng(params.seed);
 %% plot u,x,V
 % u
 stat_data = calc_statistics ( settings, params, model,'u' );
-h = plot_stat_data(data,stat_data);
+h = plot_stat_data(data,stat_data,{'Utilization';'Factor'});
 savefig(h,fullfile(settings.path2figures,'u'))
 saveas(h,fullfile(settings.path2figures,'u.bmp'));
 % x
 stat_data = calc_statistics ( settings, params, model,'x' );
-h = plot_stat_data(data,stat_data);
+h = plot_stat_data(data,stat_data,{'Available';'Resources'});
 savefig(h,fullfile(settings.path2figures,'x'))
 saveas(h,fullfile(settings.path2figures,'x.bmp'));
 
 % V
-stat_data = calc_statistics ( settings, params, model,'V' );
-h = plot_stat_data(data,stat_data);
-savefig(h,fullfile(settings.path2figures,'V'))
-saveas(h,fullfile(settings.path2figures,'V.bmp'));
+% stat_data = calc_statistics ( settings, params, model,'V' );
+% h = plot_stat_data(data,stat_data);
+% savefig(h,fullfile(settings.path2figures,'V'))
+% saveas(h,fullfile(settings.path2figures,'V.bmp'));
 
 
 %% plot raster
@@ -50,26 +50,36 @@ title('External Current');
 savefig(h,fullfile(settings.path2figures,'External Current'))
 saveas(h,fullfile(settings.path2figures,'External Current.bmp'));
 
-function h1 = plot_stat_data(data,stat_data)
-h1 = figure; 
+function h1 = plot_stat_data(data,stat_data,Parameter)
+h1 = figure;
 subplot(411);
 h = errorbar(data.timeVec,stat_data.activated_mean,stat_data.activated_std,'r'); 
 set(h,'linestyle','none');
 title('Selcetive Activated Group');
 ylim([0 1]);
+ylabel(Parameter);
+set(gca,'FontSize',14);
 subplot(412);
 h = errorbar(data.timeVec,stat_data.non_activated_selective_mean,stat_data.non_activated_selective_std,'b'); 
 set(h,'linestyle','none')
 title('Selective Non-Activated Group');
 ylim([0 1]);
+ylabel(Parameter);
+set(gca,'FontSize',14);
 subplot(413);
 h = errorbar(data.timeVec,stat_data.non_selective_mean,stat_data.non_selective_std,'g');
 set(h,'linestyle','none');
 title('Non-Selective Non-Activated Group');
 ylim([0 1]);
+ylabel(Parameter);
+set(gca,'FontSize',14);
 subplot(414);
 h = errorbar(data.timeVec,stat_data.inhibitory_mean,stat_data.inhibitory_std,'y'); 
 set(h,'linestyle','none');
 title('Inhibitory Group');
-xlabel('Time [sec]');
+xlabel('Time (sec)');
 ylim([0 1]);
+ylabel(Parameter);
+set(gca,'FontSize',14);
+
+return 
