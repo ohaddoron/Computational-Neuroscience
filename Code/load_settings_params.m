@@ -6,6 +6,7 @@ settings.path2data = fullfile('..','data');
 settings.path2figures = fullfile('..','figures');
 settings.visualize = true;
 settings.simulation_type = 'memory_maintenance';
+settings.activation = false;
 %% Simulation Params 
 params.seed = 1;
 params.simulation_time = 2e-0; % sec
@@ -48,12 +49,12 @@ params.tau_F = 1500e-3; % Recovery time of utilization factor [sec]
 params.tau_I_s = 300e-3; % Time constant of synaptic current
 %% Selective Stimulation 
 params.D_cue = 0.5e0; % Cue delay. Used to allow the network reach a spontaneous state
-params.T_cue = 0; % Duration of selective potentiation
-params.A_cue = 0; % Amplification factor
+params.T_cue = 350e-3; % Duration of selective potentiation
+params.A_cue = 1.15; % Amplification factor
 %% Reactivation Signal
 params.D_reactivating = 1.5e0; % Delay until reactivation
-params.T_reactivating = 0; % Duration of reactivating signal
-params.A_reactivating = 0; % Amplification factor
+params.T_reactivating = 250e-3; % Duration of reactivating signal
+params.A_reactivating = 1.05; % Amplification factor
 %% Periodic activating signal
 params.T_periodic = 100e-3; % Duration of reactivating signal
 params.Period = 250e-3; % Period of reactivation time

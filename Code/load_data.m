@@ -15,6 +15,10 @@ switch settings.simulation_type
         D_reactivation = round(params.D_reactivating / params.dt) + 1; % reactivation delay
         I_amp_selective(1:num_neurons_group,D_cue:D_cue+T_cue) = true; % indices to amplify
         I_amp_non_selective(1:params.num_exitatory,D_reactivation:D_reactivation + T_reactivation) = true; % indices to amplify
+        if ~settings.activation
+            I_amp_selective = false(size(I_amp_selective));
+            I_amp_non_selective = false(size(I_amp_non_selective));
+        end
     otherwise
         ...        
 end

@@ -5,13 +5,13 @@ rng(params.seed);
 % u
 stat_data = calc_statistics ( settings, params, model,'u' );
 h = plot_stat_data(data,stat_data,{'Utilization';'Factor'});
-savefig(h,fullfile(settings.path2figures,'u'))
-saveas(h,fullfile(settings.path2figures,'u.bmp'));
+savefig(h,fullfile(settings.path2figures,strcat('u',num2str(settings.activation))));
+saveas(h,fullfile(settings.path2figures,strcat('u',num2str(settings.activation))),'bmp');
 % x
 stat_data = calc_statistics ( settings, params, model,'x' );
 h = plot_stat_data(data,stat_data,{'Available';'Resources'});
-savefig(h,fullfile(settings.path2figures,'x'))
-saveas(h,fullfile(settings.path2figures,'x.bmp'));
+savefig(h,fullfile(settings.path2figures,strcat('x',num2str(settings.activation))));
+saveas(h,fullfile(settings.path2figures,strcat('x',num2str(settings.activation))),'bmp');
 
 % V
 % stat_data = calc_statistics ( settings, params, model,'V' );
@@ -25,8 +25,8 @@ h = plotRaster(settings,params,data,model);
 %% V,u,x,I
 indices = 1 : 0.01 * params.num_exitatory;
 indices = [indices, indices + 0.1 * params.num_exitatory];
-savefig(h,fullfile(settings.path2figures,'Raster Plot'))
-saveas(h,fullfile(settings.path2figures,'Raster Plot.bmp'));
+savefig(h,fullfile(settings.path2figures,strcat('Raster Plot',num2str(settings.activation))));
+saveas(h,fullfile(settings.path2figures,strcat('Raster Plot',num2str(settings.activation))),'bmp');
 
 %% plot connectivity
  h = figure;
@@ -37,8 +37,9 @@ b = colorbar;
 xlabel(b,'Connection Strength');
 title('Neuron Connectivity Map');
 leg = {'Activated Group','Other Groups'};
-savefig(h,fullfile(settings.path2figures,'Connectivity Map'))
-saveas(h,fullfile(settings.path2figures,'Connectivity Map.bmp'));
+savefig(h,fullfile(settings.path2figures,strcat('Connectivity Map',num2str(settings.activation))));
+saveas(h,fullfile(settings.path2figures,strcat('Connectivity Map',num2str(settings.activation))),'bmp');
+
 %% plot external current
 h = figure;
 imagesc(data.I);
@@ -47,8 +48,9 @@ ylabel('Neuron #');
 b = colorbar;
 xlabel(b,'PSP [V]');
 title('External Current');
-savefig(h,fullfile(settings.path2figures,'External Current'))
-saveas(h,fullfile(settings.path2figures,'External Current.bmp'));
+savefig(h,fullfile(settings.path2figures,strcat('External Current',num2str(settings.activation))));
+saveas(h,fullfile(settings.path2figures,strcat('External Current',num2str(settings.activation))),'bmp');
+
 
 function h1 = plot_stat_data(data,stat_data,Parameter)
 h1 = figure;
@@ -58,21 +60,21 @@ set(h,'linestyle','none');
 title('Selcetive Activated Group');
 ylim([0 1]);
 ylabel(Parameter);
-set(gca,'FontSize',14);
+set(gca,'FontSize',10);
 subplot(412);
 h = errorbar(data.timeVec,stat_data.non_activated_selective_mean,stat_data.non_activated_selective_std,'b'); 
 set(h,'linestyle','none')
 title('Selective Non-Activated Group');
 ylim([0 1]);
 ylabel(Parameter);
-set(gca,'FontSize',14);
+set(gca,'FontSize',10);
 subplot(413);
 h = errorbar(data.timeVec,stat_data.non_selective_mean,stat_data.non_selective_std,'g');
 set(h,'linestyle','none');
 title('Non-Selective Non-Activated Group');
 ylim([0 1]);
 ylabel(Parameter);
-set(gca,'FontSize',14);
+set(gca,'FontSize',10);
 subplot(414);
 h = errorbar(data.timeVec,stat_data.inhibitory_mean,stat_data.inhibitory_std,'y'); 
 set(h,'linestyle','none');
@@ -80,6 +82,7 @@ title('Inhibitory Group');
 xlabel('Time (sec)');
 ylim([0 1]);
 ylabel(Parameter);
-set(gca,'FontSize',14);
+set(gca,'FontSize',10);
+
 
 return 

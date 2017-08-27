@@ -32,20 +32,21 @@ for i = 1 : size(spikes,1)
     end
     
 end
+if settings.activation
+
+    y = ylim;
+    X1 = [params.D_cue, params.D_cue + params.T_cue,params.D_cue + params.T_cue,params.D_cue];
+    Y1 = [0, 0, y(2), y(2)];
+    patch(X1,Y1,[1 1 1] * 0.1, 'FaceAlpha',0.3);
 
 
-y = ylim;
-X1 = [params.D_cue, params.D_cue + params.T_cue,params.D_cue + params.T_cue,params.D_cue];
-Y1 = [0, 0, y(2), y(2)];
-patch(X1,Y1,[1 1 1] * 0.1, 'FaceAlpha',0.3);
+    X2 = [params.D_reactivating, params.D_reactivating + params.T_reactivating...
+        ,params.D_reactivating + params.T_reactivating,params.D_reactivating];
+    Y2 = [0, 0, y(2), y(2)];
+    patch(X2,Y2,[1 1 1] * 0.7, 'FaceAlpha',0.3);
 
-
-X2 = [params.D_reactivating, params.D_reactivating + params.T_reactivating...
-    ,params.D_reactivating + params.T_reactivating,params.D_reactivating];
-Y2 = [0, 0, y(2), y(2)];
-patch(X2,Y2,[1 1 1] * 0.7, 'FaceAlpha',0.3);
-
-xlim([0 params.simulation_time]);
-set(gca,'children',flipud(get(gca,'children')))
+    xlim([0 params.simulation_time]);
+    set(gca,'children',flipud(get(gca,'children')))
+end
 title('Raster Plot'), xlabel('Time [sec]'), ylabel('Neuron #');
 % legend('Activated group','Non-activated group','Specific activating current','Non-specific activating current');
